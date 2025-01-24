@@ -1,10 +1,9 @@
 // Card.vue
 <template>
   <div :class="['card', tipoClass]">
+    <div class="badge"></div>
     <div class="container">
-      <img src="/doc1.svg" alt="" v-if="tipo == 'primaria'" />
-      <img src="/doc2.svg" alt="" v-if="tipo == 'secundaria'" />
-      <img src="/doc3.svg" alt="" v-if="tipo == 'terciaria'" />
+      <img :src="icon" alt="" />
       <h3>{{ titulo }}</h3>
       <p>{{ descripcion }}</p>
     </div>
@@ -28,7 +27,13 @@ export default {
       required: true,
       validator: (value) => ['primaria', 'secundaria', 'terciaria'].includes(value),
     },
+    icon: {
+      type: String,
+      required: true,
+      default: '/doc1.svg',
+    },
   },
+
   computed: {
     tipoClass() {
       return `card--${this.tipo}`
@@ -39,25 +44,38 @@ export default {
 
 <style>
 .card {
+  position: relative;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
+  background-color: var(--vt-c-arca-title);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  width: 100%;
+  min-height: 25vh;
 }
 
-.card--primaria {
-  background-color: #e0f7fa;
-  color: #006064;
+.card .badge {
+  position: absolute;
+  width: 100%;
+  height: calc(4rem);
+  background-color: var(--vt-c-arca-title);
 }
 
-.card--secundaria {
-  background-color: #fff9c4;
-  color: #f57f17;
+.card .container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-block: 2rem 2rem;
+  padding-inline: 1rem;
+  text-align: center;
+  gap: 0.5rem;
 }
 
-.card--terciaria {
-  background-color: #f3e5f5;
-  color: #6a1b9a;
+.card h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
 }
 </style>

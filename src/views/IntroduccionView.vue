@@ -10,30 +10,52 @@
             <div class="row">
               <div class="option">
                 <div>CUIT *</div>
-                <div><input type="text" name="" id="" /></div>
+                <div>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    v-model="escribanoTitular.cuit"
+                    class="disabled"
+                  />
+                </div>
               </div>
               <div class="option">
                 <div>Apellido y nombre *</div>
-                <div><input type="text" name="" id="" class="disabled" /></div>
+                <div>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    class="disabled"
+                    v-model="escribanoTitular.apellidoNombre"
+                  />
+                </div>
               </div>
             </div>
 
             <div class="row">
               <div class="option">
                 <div>Número de matrícula *</div>
-                <div><input type="text" name="" id="" /></div>
+                <div>
+                  <input type="text" name="" id="" v-model="escribanoTitular.numeroMatricula" />
+                </div>
               </div>
               <div class="option">
                 <div>Número de registro *</div>
-                <div><input type="text" name="" id="" /></div>
+                <div>
+                  <input type="text" name="" id="" v-model="escribanoTitular.numeroRegistro" />
+                </div>
               </div>
               <div class="option">
                 <div>Código de provincia *</div>
-                <div><input type="text" name="" id="" /></div>
+                <div>
+                  <input type="text" name="" id="" v-model="escribanoTitular.codigoProvincia" />
+                </div>
               </div>
               <div class="option">
                 <div>Localidad</div>
-                <div><input type="text" name="" id="" /></div>
+                <div><input type="text" name="" id="" v-model="escribanoTitular.localidad" /></div>
               </div>
             </div>
           </section>
@@ -42,50 +64,81 @@
             <div class="row">
               <div class="option">
                 <div>CUIT *</div>
-                <div><input type="text" name="" id="" /></div>
+                <div><input type="text" name="" id="" v-model="escribanoAdscripto.cuit" /></div>
               </div>
               <div class="option">
                 <div>Apellido y nombre *</div>
-                <div><input type="text" name="" id="" class="disabled" /></div>
+                <div>
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    class="disabled"
+                    v-model="escribanoAdscripto.denominacion"
+                  />
+                </div>
               </div>
             </div>
 
             <div class="row buttons">
-              <button class="secundario">Agregar</button>
+              <button class="secundario" @click="agregarEscribano">Agregar</button>
             </div>
 
-            <div class="table">
-              <table></table>
+            <div class="table" v-if="escribanosAdscriptos.length > 0">
+              <table>
+                <!--HEADER : CUIT and DENOMINACION (font bold)
+
+                ROWS: v.for escribano in escribanosAdscriptos:
+                  escribano.cuit and escribano.denominacion in the columns-->
+                <thead>
+                  <tr>
+                    <th>CUIT</th>
+                    <th>DENOMINACIÓN</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr v-for="escribano in escribanosAdscriptos" v-bind:key="escribano.cuit">
+                    <td>{{ escribano.cuit }}</td>
+                    <td>{{ escribano.denominacion }}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </section>
 
           <div class="buttons">
             <button class="terciario">Cancelar</button>
-            <button class="primario">Guardar</button>
+            <router-link to="/inicio">
+              <button class="primario">Guardar</button>
+            </router-link>
           </div>
         </div>
       </main>
     </div>
   </div>
+
+  <div>debug escribano Titular {{ escribanoTitular }}</div>
+  <div>debug escribanos Adscriptos {{ escribanosAdscriptos }}</div>
 </template>
 
 <script setup lang="ts">
-import type { EscribanoTitular } from '@/types/types'
+import { ref } from 'vue'
+import { escribanoTitular, escribanosAdscriptos } from '@/stores/default'
 
-function createEscribanoTitular(): EscribanoTitular {
-  return {
-    cuit: '23-11222333-9',
-    nombreApellido: 23124, // no provoca un error
-    numeroMatricula: null,
-    numeroRegistro: null,
-    codigoProvincia: null,
-    localidad: null,
+const escribanoAdscripto = ref({
+  cuit: '',
+  denominacion: '',
+})
+
+function agregarEscribano() {
+  const escribano = {
+    cuit: escribanoAdscripto.value.cuit,
+    denominacion: escribanoAdscripto.value.denominacion,
   }
+
+  escribanosAdscriptos.value.push(escribano)
 }
-
-const titular = createEscribanoTitular()
-
-console.log(titular)
 </script>
 
 <style scoped>
@@ -104,23 +157,7 @@ console.log(titular)
   gap: 2rem;
 }
 
-section {
-  padding: 1rem;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-section h2 {
-  border-bottom: 1px solid #ccc;
-  height: 3rem;
-}
-
 .table {
-  background-color: red;
   height: 1rem;
 }
 </style>

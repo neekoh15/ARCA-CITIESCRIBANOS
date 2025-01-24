@@ -12,7 +12,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <BreadcrumbComp></BreadcrumbComp>
     </header>
 
-    <div class="content">
+    <div class="appContent">
       <RouterLink to=""></RouterLink>
       <RouterView />
     </div>
@@ -42,7 +42,7 @@ footer {
 }
 
 /* Content takes up remaining space */
-.content {
+.appContent {
   flex: 1; /* Occupies remaining space */
   display: flex;
   flex-direction: column; /* Adjust children if needed */

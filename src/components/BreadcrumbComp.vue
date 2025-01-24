@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumb">
-    <div class="center-content content">Inicio</div>
+    <router-link to="/"><div class="center-content content">Inicio</div></router-link>
   </div>
 </template>
 
