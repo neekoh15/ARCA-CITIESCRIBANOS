@@ -62,6 +62,8 @@
       </div>
     </div>
   </main>
+
+  {{ declaracionJurada }}
 </template>
 
 <script setup lang="ts">
